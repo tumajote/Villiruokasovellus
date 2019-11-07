@@ -3,3 +3,6 @@ Sovellus mahdollistaa luonnosta löytyvään ravintoon (esim. villiyrtit, marjat
 
 ## Tietokantakaavio
 ![tietokantakaavio](https://github.com/tumajote/Villiruokasovellus/blob/master/documentation/Tietokantakaavio.png)
+
+## Heroku
+https://villiruokasovellus.herokuapp.com/
