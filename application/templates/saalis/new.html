@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<form method="POST" action="{{ url_for('saalis_create') }}">
+  Laji: <input type="text" name="laji"/>
+  Paikka: <input type="text" name="paikka"/>
+  Maara: <input type="text" name="maara"/>
+  Koordinaatit: <input type="text" name="koordinaatit"/>
+  <input type="submit" value="Lisaa uusi saalis"/>
+</form>
+{% endblock %}

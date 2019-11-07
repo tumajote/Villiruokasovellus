@@ -2,8 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>TodoApp</title>
+    <title>Villiruokasovellus</title>
   </head>
+
+  <ul>
+    <li><a href="{{ url_for('saalis_index') }}">Listaa saaliit</a></li>
+    <li><a href="{{ url_for('saalis_form') }}">Lisää saalis</a></li>
+        </ul>
 
   <body>
     {% block body %}
@@ -11,5 +16,9 @@
         Content.
       </p>
     {% endblock %}
+
+    
+  
+
   </body>
 </html>
