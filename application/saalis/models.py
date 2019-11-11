@@ -7,7 +7,7 @@ class Saalis(db.Model):
     paivamaara = db.Column(db.DateTime, default=db.func.current_timestamp())
     maara = db.Column(db.Integer, nullable=False)
     koordinaatit = db.Column(db.String(100), nullable=False)
-
+    
     def __init__(self,laji,paikka,maara,koordinaatit):
         self.laji = laji
         self.paikka = paikka

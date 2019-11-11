@@ -1,11 +1,54 @@
 {% extends "layout.html" %}
-  
+
 {% block body %}
 <form method="POST" action="{{ url_for('saalis_create') }}">
-  Laji: <input type="text" name="laji"/>
-  Paikka: <input type="text" name="paikka"/>
-  Maara: <input type="text" name="maara"/>
-  Koordinaatit: <input type="text" name="koordinaatit"/>
-  <input type="submit" value="Lisaa uusi saalis"/>
+  <table>
+    <tr>
+      <td>
+        {{ form.laji.label }}
+      </td>
+      <td>
+        {{ form.laji }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.laji.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>
+        {{ form.maara.label }}
+      </td>
+      <td>
+        {{ form.maara }}
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>
+        {{ form.paikka.label }}
+      </td>
+      <td>
+        {{ form.paikka }}
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>
+        {{ form.koordinaatit.label }}
+      </td>
+      <td>
+        {{ form.koordinaatit }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="submit" value="Lisaa uusi saalis" />
+      </td>
+    </tr>
 </form>
 {% endblock %}
