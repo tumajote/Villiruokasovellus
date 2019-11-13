@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<table>
+    <tr>
+        <th>Käyttäjä</th>
+        <th>Laji</th>
+        <th>Paikka</th>
+        <th>Paivamaara</th>
+        <th>Maara</th>
+        <th>Koordinaatit</th>
+    </tr>
+    <tr>
+        <td>{{ saalis.account_id}}</td>
+        <td>{{ saalis.laji }}</td>
+        <td>{{ saalis.paikka }}</td>
+        <td>{{ saalis.paivamaara }}</td>
+        <td>{{ saalis.maara }}</td>
+        <td>{{ saalis.koordinaatit }}</td>
+
+
+        </td>
+    </tr>
+
+</table>
+
+<form method="POST" action="{{ url_for('saalis_editForm',saalis_id = saalis.id) }}">
+    <table>
+        <tr>
+            <td>
+                {{ form.laji.label }}
+            </td>
+            <td>
+                {{ form.laji }}
+            </td>
+            <td>
+                <ul>
+                    {% for error in form.laji.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td>
+                {{ form.maara.label }}
+            </td>
+            <td>
+                {{ form.maara }}
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td>
+                {{ form.paikka.label }}
+            </td>
+            <td>
+                {{ form.paikka }}
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td>
+                {{ form.koordinaatit.label }}
+            </td>
+            <td>
+                {{ form.koordinaatit }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.poista.label }}
+            </td>
+            <td>
+                {{ form.poista }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Muokkaa" />
+            </td>
+        </tr>
+</form>
+
+
+
+
+
+{% endblock %}
