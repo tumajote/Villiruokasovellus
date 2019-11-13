@@ -45,7 +45,7 @@ def saalis_editForm(saalis_id):
 
     if request.method == 'POST':
 
-        if form.poista:
+        if form.poista.data:
             db.session().delete(saalis)
             db.session().commit()
             return redirect(url_for("saalis_index"))
