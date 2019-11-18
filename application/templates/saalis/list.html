@@ -3,7 +3,6 @@
 {% block body %}
   <table>
     <tr>
-      <th>Käyttäjä</th>
       <th>Laji</th>
       <th>Paikka</th>
       <th>Paivamaara</th>
@@ -12,7 +11,6 @@
     </tr>
     {% for saalis in saaliit %}
     <tr>
-      <td>{{ saalis.account_id}}</td>
       <td>{{ saalis.laji }}</td>
       <td>{{ saalis.paikka }}</td>
       <td>{{ saalis.paivamaara }}</td>

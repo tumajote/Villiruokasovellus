@@ -1,5 +1,7 @@
 from application import db
 
+from sqlalchemy.sql import text
+
 
 class Saalis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,3 +18,10 @@ class Saalis(db.Model):
         self.paikka = paikka
         self.maara = maara
         self.koordinaatit = koordinaatit
+    
+    @staticmethod
+    def find_users_saaliit(user_id):
+        stmt = text("SELECT * FROM Saalis WHERE account_id = :id").params(id=user_id)
+        res = db.engine.execute(stmt)
+
+        return res

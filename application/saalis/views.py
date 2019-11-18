@@ -7,8 +7,9 @@ from application.saalis.forms import SaalisForm
 
 
 @app.route("/saalis")
+@login_required
 def saalis_index():
-    return render_template("saalis/list.html", saaliit=Saalis.query.all())
+    return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id))
 
 
 @app.route("/saalis/new/")
