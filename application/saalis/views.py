@@ -2,7 +2,7 @@ from application import app, db
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
-from application.saalis.models import Saalis
+from application.saalis.models import Saalis, Sijainti
 from application.saalis.forms import SaalisForm
 
 
@@ -26,13 +26,25 @@ def saalis_create():
     if not form.validate():
         return render_template("saalis/new.html", form=form)
 
+    alue = form.alue.data
+
+    sijaintipk = Sijainti.find_alue(alue)
+    if sijaintipk == 0:
+        sijainti = Sijainti(alue)
+        db.session().add(sijainti)
+        db.session().commit()
+        sijaintipk = sijainti.id
+
+
+
     laji = form.laji.data
-    paikka = form.paikka.data
     maara = form.maara.data
     koordinaatit = form.koordinaatit.data
-    t = Saalis(laji, paikka, maara, koordinaatit)
-    t.account_id = current_user.id
-    db.session().add(t)
+    saalis = Saalis(laji, maara, koordinaatit)
+    saalis.account_id = current_user.id
+    saalis.sijainti_id = sijaintipk
+
+    db.session().add(saalis)
     db.session().commit()
     return redirect(url_for("saalis_index"))
 
