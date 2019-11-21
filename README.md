@@ -19,4 +19,9 @@ Käyttäjänäkymässä on myös kartta, josta voi tarkastella omia löytöjää
 ![tietokantakaavio](https://github.com/tumajote/Villiruokasovellus/blob/master/documentation/Tietokantakaavio.png)
 
 ## Heroku
+
+Username: hello
+Password: world
+
 https://villiruokasovellus.herokuapp.com/
+
