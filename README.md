@@ -20,8 +20,8 @@ Käyttäjänäkymässä on myös kartta, josta voi tarkastella omia löytöjää
 
 ## Heroku
 
-Username: hello
-Password: world
+* Username: hello
+* Password: world
 
 https://villiruokasovellus.herokuapp.com/
 
