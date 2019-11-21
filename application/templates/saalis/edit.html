@@ -5,7 +5,7 @@
     <tr>
         <th>Käyttäjä</th>
         <th>Laji</th>
-        <th>Paikka</th>
+        <th>Alue</th>
         <th>Paivamaara</th>
         <th>Maara</th>
         <th>Koordinaatit</th>
@@ -13,7 +13,7 @@
     <tr>
         <td>{{ saalis.account_id}}</td>
         <td>{{ saalis.laji }}</td>
-        <td>{{ saalis.paikka }}</td>
+        <td>{{ sijainti.alue }}</td>
         <td>{{ saalis.paivamaara }}</td>
         <td>{{ saalis.maara }}</td>
         <td>{{ saalis.koordinaatit }}</td>
@@ -24,7 +24,7 @@
 
 </table>
 
-<form method="POST" action="{{ url_for('saalis_editForm',saalis_id = saalis.id) }}">
+<form method="POST" action="{{ url_for('saalis_edit',saalis_id = saalis.id) }}">
     <table>
         <tr>
             <td>
@@ -53,10 +53,10 @@
         <tr>
         <tr>
             <td>
-                {{ form.paikka.label }}
+                {{ form.alue.label }}
             </td>
             <td>
-                {{ form.paikka }}
+                {{ form.alue }}
             </td>
         </tr>
         <tr>

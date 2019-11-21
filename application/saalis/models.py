@@ -21,7 +21,12 @@ class Saalis(db.Model):
 
     @staticmethod
     def find_users_saaliit(user_id):
-        stmt = text("SELECT * FROM Saalis,Sijainti WHERE account_id = :id").params(id=user_id)
+        stmt = text(
+            "SELECT Account.name, Saalis.id, Saalis.laji, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue "
+            "FROM Saalis "
+            "JOIN Account ON Saalis.account_id = account.id "
+            "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
+            "WHERE Account.id = :id").params(id=user_id)
         res = db.engine.execute(stmt)
 
         return res
@@ -34,14 +39,16 @@ class Sijainti(db.Model):
     def __init__(self, alue):
         self.alue = alue
 
-
     @staticmethod
-    def find_alue(alueenNimi):
-        stmt = text("SELECT id FROM Sijainti WHERE alue = :alue").params(alue=alueenNimi)
+    def find_alue_id(alueenNimi):
+        stmt = text("SELECT id FROM Sijainti WHERE Sijainti.alue = :alue").params(alue=alueenNimi)
 
         res = db.engine.execute(stmt).first()
 
         if not res:
-            return 0
+            sijainti = Sijainti(alueenNimi)
+            db.session().add(sijainti)
+            db.session().commit()
+            return sijainti.id
 
         return res.id

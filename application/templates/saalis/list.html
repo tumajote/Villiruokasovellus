@@ -16,7 +16,7 @@
       <td>{{ saalis.paivamaara }}</td>
       <td>{{ saalis.maara }}</td>
       <td>{{ saalis.koordinaatit }}</td>
-      <td><form method="GET" action="{{ url_for('saalis_editForm',saalis_id = saalis.id) }}">
+      <td><form method="GET" action="{{ url_for('saalis_edit_form',saalis_id = saalis.id) }}">
         <input type="submit" value="Muokkaa">
     </form>
     </tr>
