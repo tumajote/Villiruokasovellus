@@ -1,87 +1,108 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<table class="table">
-    <tr>
-        <th>Käyttäjä</th>
-        <th>Laji</th>
-        <th>Alue</th>
-        <th>Paivamaara</th>
-        <th>Maara</th>
-        <th>Koordinaatit</th>
-    </tr>
-    <tr>
-        <td>{{ saalis.account_id}}</td>
-        <td>{{ saalis.laji }}</td>
-        <td>{{ sijainti.alue }}</td>
-        <td>{{ saalis.paivamaara }}</td>
-        <td>{{ saalis.maara }}</td>
-        <td>{{ saalis.koordinaatit }}</td>
+    <table class="table">
+        <tr>
+            <th>Käyttäjä</th>
+            <th>Laji</th>
+            <th>Alue</th>
+            <th>Paivamaara</th>
+            <th>Maara</th>
+            <th>Koordinaatit</th>
+        </tr>
+        <tr>
+            <td>{{ saalis.account_id }}</td>
+            <td>{{ laji.nimi }}</td>
+            <td>{{ sijainti.alue }}</td>
+            <td>{{ saalis.paivamaara }}</td>
+            <td>{{ saalis.maara }}</td>
+            <td>{{ saalis.koordinaatit }}</td>
 
 
-        </td>
-    </tr>
+            </td>
+        </tr>
 
-</table>
+    </table>
 
-<form method="POST" action="{{ url_for('saalis_edit',saalis_id = saalis.id) }}">
-    <table>
-        <tr>
-            <td>
-                {{ form.laji.label }}
-            </td>
-            <td>
-                {{ form.laji }}
-            </td>
-            <td>
-                <ul>
-                    {% for error in form.laji.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-        <tr>
-            <td>
-                {{ form.maara.label }}
-            </td>
-            <td>
-                {{ form.maara }}
-            </td>
-        </tr>
-        <tr>
-        <tr>
-            <td>
-                {{ form.alue.label }}
-            </td>
-            <td>
-                {{ form.alue }}
-            </td>
-        </tr>
-        <tr>
-        <tr>
-            <td>
-                {{ form.koordinaatit.label }}
-            </td>
-            <td>
-                {{ form.koordinaatit }}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                {{ form.poista.label }}
-            </td>
-            <td>
-                {{ form.poista }}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Muokkaa" />
-            </td>
-        </tr>
-</form>
+    <form method="POST" action="{{ url_for('saalis_edit',saalis_id = saalis.id) }}">
+        <table>
+            <tr>
+                <td>
+                    {{ form.laji.label }}
+                </td>
+                <td>
+                    {{ form.laji }}
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.laji.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td>
+                    {{ form.maara.label }}
+                </td>
+                <td>
+                    {{ form.maara }}
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.maara.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td>
+                    {{ form.alue.label }}
+                </td>
+                <td>
+                    {{ form.alue }}
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.alue.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td>
+                    {{ form.koordinaatit.label }}
+                </td>
+                <td>
+                    {{ form.koordinaatit }}
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.koordinaatit.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form.poista.label }}
+                </td>
+                <td>
+                    {{ form.poista }}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Muokkaa"/>
+                </td>
+            </tr>
+    </form>
 
 
 

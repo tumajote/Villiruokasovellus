@@ -39,7 +39,7 @@ def auth_signin():
     # mahdolliset validoinnit
 
     if not form.validate():
-        return render_template("auth/signinform.html", form=form())
+        return render_template("auth/signinform.html", form=form)
 
     if not form.password.data == form.confirmPassword.data:
         return render_template("auth/signinform.html", form=form,

@@ -26,6 +26,13 @@
                 <td>
                     {{ form.maara }}
                 </td>
+                <td>
+                    <ul>
+                        {% for error in form.maara.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
             </tr>
             <tr>
             <tr>
@@ -36,6 +43,20 @@
                 <td>
                     {{ form.koordinaatit }}
                 </td>
+                <td>
+                    <ul>
+                        {% for error in form.koordinaatit.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.maara.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -43,6 +64,13 @@
                 </td>
                 <td>
                     {{ form.alue }}
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.alue.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
                 </td>
             </tr>
             <tr>
