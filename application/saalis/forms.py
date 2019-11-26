@@ -1,17 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField,BooleanField,FloatField, validators
+from wtforms import StringField, IntegerField, BooleanField, validators
+
 
 class SaalisForm(FlaskForm):
-
-    maara = IntegerField("Määrä")
-    koordinaatit = StringField("Koordinaatit")
+    maara = IntegerField("Määrä", [validators.InputRequired()])
+    koordinaatit = StringField("Koordinaatit", [validators.Length(min=20)])
 
     laji = StringField("Laji", [validators.Length(min=2)])
-    alue = StringField("Alue")
+    alue = StringField("Alue", [validators.Length(min=2)])
     poista = BooleanField("Poista")
 
-
- 
     class Meta:
         csrf = False
-        
