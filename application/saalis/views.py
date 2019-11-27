@@ -9,6 +9,11 @@ from application.laji.models import Laji
 
 
 @app.route("/saalis")
+def saalis_public_index():
+    return render_template("saalis/public.html", saaliit=Saalis.find_all_public_saaliit())
+
+
+@app.route("/saalis")
 @login_required
 def saalis_index():
     return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id))
