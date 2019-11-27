@@ -8,6 +8,7 @@ class Saalis(db.Model):
     paivamaara = db.Column(db.DateTime, default=db.func.current_timestamp())
     maara = db.Column(db.Integer, nullable=False)
     koordinaatit = db.Column(db.String(100), nullable=False)
+    julkinen = db.Column(db.Boolean,nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey(
         'account.id'), nullable=False)
     sijainti_id = db.Column(db.Integer, db.ForeignKey(

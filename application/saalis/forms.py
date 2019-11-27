@@ -8,6 +8,8 @@ class SaalisForm(FlaskForm):
 
     laji = StringField("Laji", [validators.Length(min=2)])
     alue = StringField("Alue", [validators.Length(min=2)])
+
+    julkinen = BooleanField("Julkinen")
     poista = BooleanField("Poista")
 
     class Meta:

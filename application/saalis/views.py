@@ -37,6 +37,7 @@ def saalis_create():
     saalis.sijainti_id = sijaintipk
     lajipk = Laji.find_laji_id(form.laji.data)
     saalis.laji_id = lajipk
+    saalis.julkinen = form.julkinen.data
 
     db.session().add(saalis)
     db.session().commit()
@@ -56,6 +57,7 @@ def saalis_edit_form(saalis_id):
     form.alue.data = sijainti.alue
     form.maara.data = saalis.maara
     form.koordinaatit.data = saalis.koordinaatit
+    form.julkinen.data = saalis.julkinen
 
     return render_template("saalis/edit.html", saalis=saalis, form=form, sijainti=sijainti, laji=laji)
 
@@ -93,6 +95,10 @@ def saalis_edit(saalis_id):
 
     if saalis.koordinaatit != form.koordinaatit.data:
         saalis.koordinaatit = form.koordinaatit.data
+        muutos = True
+
+    if saalis.julkinen != form.julkinen.data:
+        saalis.julkinen = form.julkinen.data
         muutos = True
 
     if muutos:
