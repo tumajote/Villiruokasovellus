@@ -3,7 +3,9 @@ from flask_login import login_required, current_user
 
 from application import app, db
 from application.saalis.forms import SaalisForm
-from application.saalis.models import Saalis, Sijainti, Laji
+from application.saalis.models import Saalis
+from application.sijainti.models import Sijainti
+from application.laji.models import Laji
 
 
 @app.route("/saalis")
@@ -22,24 +24,20 @@ def saalis_form():
 @login_required
 def saalis_create():
     form = SaalisForm(request.form)
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     if not form.validate():
         return render_template("saalis/new.html", form=form)
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     maara = form.maara.data
     koordinaatit = form.koordinaatit.data
     saalis = Saalis(maara, koordinaatit)
 
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     saalis.account_id = current_user.id
     sijaintipk = Sijainti.find_alue_id(form.alue.data)
     saalis.sijainti_id = sijaintipk
     lajipk = Laji.find_laji_id(form.laji.data)
     saalis.laji_id = lajipk
 
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     db.session().add(saalis)
     db.session().commit()
     return redirect(url_for("saalis_index"))
@@ -59,7 +57,7 @@ def saalis_edit_form(saalis_id):
     form.maara.data = saalis.maara
     form.koordinaatit.data = saalis.koordinaatit
 
-    return render_template("saalis/edit.html", saalis=saalis, form=form, sijainti=sijainti, laji=lajiq)
+    return render_template("saalis/edit.html", saalis=saalis, form=form, sijainti=sijainti, laji=laji)
 
 
 @app.route("/saalis/<saalis_id>/", methods=["POST"])
