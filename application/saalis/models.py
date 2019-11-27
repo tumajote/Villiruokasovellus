@@ -8,7 +8,7 @@ class Saalis(db.Model):
     paivamaara = db.Column(db.DateTime, default=db.func.current_timestamp())
     maara = db.Column(db.Integer, nullable=False)
     koordinaatit = db.Column(db.String(100), nullable=False)
-    julkinen = db.Column(db.Boolean,nullable=False)
+    julkinen = db.Column(db.Boolean, nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey(
         'account.id'), nullable=False)
     sijainti_id = db.Column(db.Integer, db.ForeignKey(
@@ -29,6 +29,18 @@ class Saalis(db.Model):
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
             "JOIN Laji ON Saalis.laji_id = laji.id "
             "WHERE Account.id = :id").params(id=user_id)
+        res = db.engine.execute(stmt)
+
+        return res
+
+    @staticmethod
+    def find_all_public_saaliit():
+        stmt = text(
+            "SELECT Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi "
+            "FROM Saalis "
+            "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
+            "JOIN Laji ON Saalis.laji_id = laji.id "
+            "WHERE Saalis.julkinen = TRUE ")
         res = db.engine.execute(stmt)
 
         return res

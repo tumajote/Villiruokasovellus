@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <table class="table">
+        <tr>
+            <th>Laji</th>
+            <th>Alue</th>
+            <th>Paivamaara</th>
+            <th>Maara</th>
+            <th>Koordinaatit</th>
+        </tr>
+        {% for saalis in saaliit %}
+            <tr>
+                <td>{{ saalis.nimi }}</td>
+                <td>{{ saalis.alue }}</td>
+                <td>{{ saalis.paivamaara }}</td>
+                <td>{{ saalis.maara }}</td>
+                <td>{{ saalis.koordinaatit }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
