@@ -2,33 +2,50 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 from application import app, db
-from application.saalis.forms import SaalisForm
+from application.laji.models import Laji
+from application.saalis.forms import SearchSaalisForm, CreateSaalisForm
 from application.saalis.models import Saalis
 from application.sijainti.models import Sijainti
-from application.laji.models import Laji
 
 
-@app.route("/saalis")
+@app.route("/saalis/public")
 def saalis_public_index():
     return render_template("saalis/public.html", saaliit=Saalis.find_all_public_saaliit())
 
 
-@app.route("/saalis")
+@app.route("/saalis/")
 @login_required
 def saalis_index():
-    return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id))
+    return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id),
+                           form=SearchSaalisForm())
+
+
+@app.route("/saalis/search/<kenen>")
+@login_required
+def saalis_search(kenen):
+    print("Jotain")
+    print(kenen)
+    if kenen == "omat":
+        return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id),
+                               form=SearchSaalisForm())
+    elif kenen == "julkiset":
+        return render_template("saalis/list.html", saaliit=Saalis.find_all_public_saaliit(),
+                               form=SearchSaalisForm())
+    else:
+        return render_template("saalis/list.html", saaliit=Saalis.find_users_and_public_saaliit(current_user.id),
+                               form=SearchSaalisForm())
 
 
 @app.route("/saalis/new/")
 @login_required
 def saalis_form():
-    return render_template("saalis/new.html", form=SaalisForm())
+    return render_template("saalis/new.html", form=CreateSaalisForm())
 
 
 @app.route("/saalis/new", methods=["POST"])
 @login_required
 def saalis_create():
-    form = SaalisForm(request.form)
+    form = CreateSaalisForm(request.form)
 
     if not form.validate():
         return render_template("saalis/new.html", form=form)
@@ -56,7 +73,7 @@ def saalis_edit_form(saalis_id):
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)
 
-    form = SaalisForm(request.form)
+    form = CreateSaalisForm(request.form)
 
     form.laji.data = laji.nimi
     form.alue.data = sijainti.alue
@@ -73,7 +90,7 @@ def saalis_edit(saalis_id):
     saalis = Saalis.query.get(saalis_id)
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)
-    form = SaalisForm(request.form)
+    form = CreateSaalisForm(request.form)
 
     if form.poista.data:
         db.session().delete(saalis)

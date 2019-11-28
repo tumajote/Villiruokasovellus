@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, BooleanField, validators
+from wtforms import StringField, IntegerField, BooleanField, RadioField, validators
 
 
-class SaalisForm(FlaskForm):
+class CreateSaalisForm(FlaskForm):
     maara = IntegerField("Määrä", [validators.InputRequired()])
     koordinaatit = StringField("Koordinaatit", [validators.Length(min=20)])
 
@@ -11,6 +11,18 @@ class SaalisForm(FlaskForm):
 
     julkinen = BooleanField("Julkinen")
     poista = BooleanField("Poista")
+
+    class Meta:
+        csrf = False
+
+
+class SearchSaalisForm(FlaskForm):
+    kenen = RadioField("kenen", choices=[("omat", "Omat saaliit"), ("julkiset", "Julkiset saaliit"),
+                                         ("julkisetJaOmat", "Julkiset ja omat saaliit")])
+
+    alueittain = BooleanField("Alueittain")
+    lajeittain = BooleanField("Lajeittain")
+    isoinMaaraEnsin = BooleanField("Alueittain")
 
     class Meta:
         csrf = False

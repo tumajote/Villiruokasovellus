@@ -23,7 +23,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_saaliit(user_id):
         stmt = text(
-            "SELECT Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi "
+            "SELECT Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -36,11 +36,25 @@ class Saalis(db.Model):
     @staticmethod
     def find_all_public_saaliit():
         stmt = text(
-            "SELECT Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi "
+            "SELECT Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
             "JOIN Laji ON Saalis.laji_id = laji.id "
             "WHERE Saalis.julkinen = TRUE ")
+        res = db.engine.execute(stmt)
+
+        return res
+
+    @staticmethod
+    def find_users_and_public_saaliit(user_id):
+        stmt = text(
+            "SELECT Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "FROM Saalis "
+            "JOIN Account ON Saalis.account_id = account.id "
+            "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
+            "JOIN Laji ON Saalis.laji_id = laji.id "
+            "WHERE Account.id = :id "
+            "OR Saalis.julkinen = TRUE ").params(id=user_id)
         res = db.engine.execute(stmt)
 
         return res
