@@ -18,7 +18,7 @@ class CreateSaalisForm(FlaskForm):
 
 class SearchSaalisForm(FlaskForm):
     kenen = RadioField("kenen", choices=[("omat", "Omat saaliit"), ("julkiset", "Julkiset saaliit"),
-                                         ("julkisetJaOmat", "Julkiset ja omat saaliit")])
+                                         ("julkisetJaOmat", "Julkiset ja omat saaliit")], default="omat")
 
     alueittain = BooleanField("Alueittain")
     lajeittain = BooleanField("Lajeittain")

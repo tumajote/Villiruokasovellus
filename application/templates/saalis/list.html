@@ -4,7 +4,7 @@
 
 
 {% block body %}
-    <form method="Get" action="{{ url_for('saalis_search',kenen="") }}">
+    <form method="GET" action="{{ url_for('saalis_search') }}">
         <div class="form-check">
             {% for subfield in form.kenen %}
                 <tr>
@@ -14,30 +14,30 @@
             {% endfor %}
         </div>
         <input type="submit" value="Hae">
+    </form>
 
-
-        <table class="table">
+    <table class="table">
+        <tr>
+            <th>Laji</th>
+            <th>Alue</th>
+            <th>Paivamaara</th>
+            <th>Maara</th>
+            <th>Koordinaatit</th>
+        </tr>
+        {% for saalis in saaliit %}
             <tr>
-                <th>Laji</th>
-                <th>Alue</th>
-                <th>Paivamaara</th>
-                <th>Maara</th>
-                <th>Koordinaatit</th>
+                <td>{{ saalis.nimi }}</td>
+                <td>{{ saalis.alue }}</td>
+                <td>{{ saalis.paivamaara }}</td>
+                <td>{{ saalis.maara }}</td>
+                <td>{{ saalis.koordinaatit }}</td>
+                {% if not saalis.julkinen %}
+                    <td>
+                    <form method="GET" action="{{ url_for('saalis_edit_form',saalis_id = saalis.id) }}">
+                        <input type="submit" value="Muokkaa">
+                    </form>
+                {% endif %}
             </tr>
-            {% for saalis in saaliit %}
-                <tr>
-                    <td>{{ saalis.nimi }}</td>
-                    <td>{{ saalis.alue }}</td>
-                    <td>{{ saalis.paivamaara }}</td>
-                    <td>{{ saalis.maara }}</td>
-                    <td>{{ saalis.koordinaatit }}</td>
-                    {% if not saalis.julkinen %}
-                        <td>
-                        <form method="GET" action="{{ url_for('saalis_edit_form',saalis_id = saalis.id) }}">
-                            <input type="submit" value="Muokkaa">
-                        </form>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
+    </table>
 {% endblock %}

@@ -20,20 +20,25 @@ def saalis_index():
                            form=SearchSaalisForm())
 
 
-@app.route("/saalis/search/<kenen>")
+@app.route("/saalis/search", methods=["GET"])
 @login_required
-def saalis_search(kenen):
-    print("Jotain")
-    print(kenen)
-    if kenen == "omat":
-        return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id),
-                               form=SearchSaalisForm())
-    elif kenen == "julkiset":
-        return render_template("saalis/list.html", saaliit=Saalis.find_all_public_saaliit(),
-                               form=SearchSaalisForm())
+def saalis_search():
+    form = SearchSaalisForm()
+    search = request.args.get("kenen")
+    if not search:
+        form.kenen.data = "omat"
+        search = "omat"
     else:
+        form.kenen.data = search
+    if search == "omat":
+        return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id),
+                               form=form)
+    elif search == "julkiset":
+        return render_template("saalis/list.html", saaliit=Saalis.find_all_public_saaliit(),
+                               form=form)
+    elif search == "julkisetJaOmat":
         return render_template("saalis/list.html", saaliit=Saalis.find_users_and_public_saaliit(current_user.id),
-                               form=SearchSaalisForm())
+                               form=form)
 
 
 @app.route("/saalis/new/")
@@ -66,9 +71,10 @@ def saalis_create():
     return redirect(url_for("saalis_index"))
 
 
-@app.route("/saalis/<saalis_id>/", methods=["GET"])
+@app.route("/saalis/<saalis_id>", methods=["GET"])
 @login_required
 def saalis_edit_form(saalis_id):
+    print(saalis_id)
     saalis = Saalis.query.get(saalis_id)
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)
