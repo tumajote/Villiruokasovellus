@@ -23,6 +23,7 @@
             <th>Paivamaara</th>
             <th>Maara</th>
             <th>Koordinaatit</th>
+            <th>Julkinen</th>
         </tr>
         {% for saalis in saaliit %}
             <tr>
@@ -31,7 +32,12 @@
                 <td>{{ saalis.paivamaara }}</td>
                 <td>{{ saalis.maara }}</td>
                 <td>{{ saalis.koordinaatit }}</td>
-                {% if not saalis.julkinen %}
+                {% if saalis.julkinen %}
+                    <td>Kyllä</td>
+                {% else %}
+                    <td>Ei</td>
+                {% endif %}
+                {% if saalis.account_id == current_user.id %}
                     <td>
                     <form method="GET" action="{{ url_for('saalis_edit_form',saalis_id = saalis.id) }}">
                         <input type="submit" value="Muokkaa">

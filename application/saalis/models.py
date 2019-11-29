@@ -23,7 +23,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_saaliit(user_id):
         stmt = text(
-            "SELECT Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Account.name, Saalis.account_id, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -36,8 +36,9 @@ class Saalis(db.Model):
     @staticmethod
     def find_all_public_saaliit():
         stmt = text(
-            "SELECT Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
+            "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
             "JOIN Laji ON Saalis.laji_id = laji.id "
             "WHERE Saalis.julkinen = TRUE ")
@@ -48,7 +49,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_and_public_saaliit(user_id):
         stmt = text(
-            "SELECT Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.account_id, Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
