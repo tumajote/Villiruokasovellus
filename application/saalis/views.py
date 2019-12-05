@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_manager
 
 from application import app, db
 from application.laji.models import Laji
@@ -25,20 +25,22 @@ def saalis_index():
 def saalis_search():
     form = SearchSaalisForm()
     search = request.args.get("kenen")
+    maara = Saalis.sum_of_all_maara(current_user.id).first()
     if not search:
         form.kenen.data = "omat"
         search = "omat"
     else:
         form.kenen.data = search
     if search == "omat":
-        return render_template("saalis/list.html", saaliit=Saalis.find_users_saaliit(current_user.id),
-                               form=form)
+        saaliit = Saalis.find_users_saaliit(current_user.id)
     elif search == "julkiset":
-        return render_template("saalis/list.html", saaliit=Saalis.find_all_public_saaliit(),
-                               form=form)
+        saaliit = Saalis.find_all_public_saaliit()
+
     elif search == "julkisetJaOmat":
-        return render_template("saalis/list.html", saaliit=Saalis.find_users_and_public_saaliit(current_user.id),
-                               form=form)
+        saaliit = Saalis.find_users_and_public_saaliit(current_user.id)
+
+    return render_template("saalis/list.html", saaliit=saaliit, maara=maara,
+                           form=form)
 
 
 @app.route("/saalis/new/")
@@ -68,7 +70,7 @@ def saalis_create():
 
     db.session().add(saalis)
     db.session().commit()
-    return redirect(url_for("saalis_index"))
+    return redirect(url_for("saalis_search"))
 
 
 @app.route("/saalis/<saalis_id>", methods=["GET"])
@@ -108,7 +110,7 @@ def saalis_edit(saalis_id):
     if form.poista.data:
         db.session().delete(saalis)
         db.session().commit()
-        return redirect(url_for("saalis_index"))
+        return redirect(url_for("saalis_search"))
 
     if not form.validate():
         return render_template("saalis/edit.html", saalis=saalis, form=form, laji=laji)
@@ -138,4 +140,4 @@ def saalis_edit(saalis_id):
 
     if muutos:
         db.session().commit()
-    return render_template("saalis/edit.html", saalis=saalis, form=form, sijainti=sijainti, laji=laji)
+    return redirect(url_for("saalis_search"))

@@ -4,6 +4,9 @@
 
 
 {% block body %}
+    <p>Olet kerännyt yhteensä {{ maara }}kg villiruokaa!</p>
+
+
     <form method="GET" action="{{ url_for('saalis_search') }}">
         <div class="form-check">
             {% for subfield in form.kenen %}

@@ -5,7 +5,7 @@ from application import db
 
 class Saalis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    paivamaara = db.Column(db.DateTime, default=db.func.current_timestamp())
+    paivamaara = db.Column(db.Date, default=db.func.current_date())
     maara = db.Column(db.Integer, nullable=False)
     koordinaatit = db.Column(db.String(100), nullable=False)
     julkinen = db.Column(db.Boolean, nullable=False)
@@ -56,6 +56,17 @@ class Saalis(db.Model):
             "JOIN Laji ON Saalis.laji_id = laji.id "
             "WHERE Account.id = :id "
             "OR Saalis.julkinen = TRUE ").params(id=user_id)
+        res = db.engine.execute(stmt)
+
+        return res
+
+    @staticmethod
+    def sum_of_all_maara(user_id):
+        stmt = text(
+            "SELECT SUM(saalis.maara) "
+            "FROM Saalis "
+            "JOIN Account ON Saalis.account_id = account.id "
+            "WHERE Account.id = :id ").params(id=user_id)
         res = db.engine.execute(stmt)
 
         return res
