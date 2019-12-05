@@ -74,8 +74,11 @@ def saalis_create():
 @app.route("/saalis/<saalis_id>", methods=["GET"])
 @login_required
 def saalis_edit_form(saalis_id):
-    print(saalis_id)
     saalis = Saalis.query.get(saalis_id)
+
+    if saalis.account_id != current_user.id:
+        return login_manager.unauthorized()
+
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)
 
@@ -94,6 +97,10 @@ def saalis_edit_form(saalis_id):
 @login_required
 def saalis_edit(saalis_id):
     saalis = Saalis.query.get(saalis_id)
+
+    if saalis.account_id != current_user.id:
+        return login_manager.unauthorized()
+
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)
     form = CreateSaalisForm(request.form)
