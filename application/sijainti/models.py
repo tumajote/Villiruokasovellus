@@ -23,3 +23,19 @@ class Sijainti(db.Model):
             return sijainti.id
 
         return res.id
+
+    @staticmethod
+    def find_maarat_alueittain_by_user_id(userId):
+        stmt = text(
+            "SELECT Sijainti.alue, SUM(Saalis.maara) AS maara "
+            "FROM Sijainti "
+            "LEFT JOIN Saalis ON Sijainti.id = Saalis.sijainti_id "
+            "JOIN Account ON Saalis.account_id = account.id "
+            "WHERE Account.id = :id "
+            "GROUP BY Sijainti.alue "
+            "ORDER BY maara DESC;").params(
+            id=userId)
+
+        res = db.engine.execute(stmt)
+
+        return res

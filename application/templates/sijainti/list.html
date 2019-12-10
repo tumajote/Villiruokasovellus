@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+    <table class="table">
+        <tr>
+            <th>Alue</th>
+            <th>Maara</th>
+        </tr>
+        {% for sijainti in sijainnit %}
+            <tr>
+                <td>{{ sijainti.alue }}</td>
+                <td>{{ sijainti.maara }}g</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

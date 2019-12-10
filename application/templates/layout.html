@@ -33,6 +33,16 @@
             </li>
             {% if current_user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('sijainti_index') }} ">Listaa sijainnit</a>
+                </li>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('laji_index') }} ">Listaa lajit</a>
+                </li>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('saalis_form') }} ">Lisää saalis</a>
                 </li>
             {% endif %}

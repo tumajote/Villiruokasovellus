@@ -23,3 +23,19 @@ class Laji(db.Model):
             return laji.id
 
         return res.id
+
+    @staticmethod
+    def find_maarat_lajeittain_by_user_id(userId):
+        stmt = text(
+            "SELECT Laji.nimi, SUM(Saalis.maara) AS maara "
+            "FROM Laji "
+            "LEFT JOIN Saalis ON Laji.id = Saalis.laji_id "
+            "JOIN Account ON Saalis.account_id = account.id "
+            "WHERE Account.id = :id "
+            "GROUP BY Laji.nimi "
+            "ORDER BY maara DESC;").params(
+            id=userId)
+
+        res = db.engine.execute(stmt)
+
+        return res

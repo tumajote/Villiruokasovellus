@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+    <table class="table">
+        <tr>
+            <th>Laji</th>
+            <th>Maara</th>
+        </tr>
+        {% for laji in lajit %}
+            <tr>
+                <td>{{ laji.nimi }}</td>
+                <td>{{ laji.maara }}g</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}sijaintisijainti
