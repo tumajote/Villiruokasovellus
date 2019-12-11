@@ -79,7 +79,7 @@ def saalis_edit_form(saalis_id):
     saalis = Saalis.query.get(saalis_id)
 
     if saalis.account_id != current_user.id:
-        return login_manager.unauthorized()
+        return login_manager.user_unauthorized()
 
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)
@@ -101,7 +101,7 @@ def saalis_edit(saalis_id):
     saalis = Saalis.query.get(saalis_id)
 
     if saalis.account_id != current_user.id:
-        return login_manager.unauthorized()
+        return login_manager.user_unauthorized()
 
     sijainti = Sijainti.query.get(saalis.sijainti_id)
     laji = Laji.query.get(saalis.laji_id)

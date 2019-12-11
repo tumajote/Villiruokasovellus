@@ -1,17 +1,11 @@
 {% extends "layout.html" %}
 
 {% block body %}
+    <h3>Poista käyttäjätili:</h3>
+    <p>Kirjoita salasanasi poistaaksesi tilisi ja kaikki tekemäsi löydöt</p>
     {{ error }}
-    <form method="POST" action="{{ url_for('auth_login') }}">
+    <form method="POST" action="{{ url_for('delete_account') }}">
         <table>
-            <tr>
-                <td>
-                    {{ form.username.label }}
-                </td>
-                <td>
-                    {{ form.username }}
-                </td>
-            </tr>
             <tr>
                 <td>
                     {{ form.password.label }}
@@ -22,9 +16,11 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="submit" value="Login"/>
+                    <input class="btn btn-danger" type="submit" value="Poista"/>
                 </td>
             </tr>
         </table>
     </form>
+
+
 {% endblock %}

@@ -23,7 +23,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_saaliit(user_id):
         stmt = text(
-            "SELECT Account.name, Saalis.account_id, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.account_id, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -49,7 +49,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_and_public_saaliit(user_id):
         stmt = text(
-            "SELECT Saalis.account_id, Account.name, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -70,3 +70,10 @@ class Saalis(db.Model):
         res = db.engine.execute(stmt)
 
         return res
+
+    @staticmethod
+    def delete_users_saaliit(user_id):
+        stmt = text(
+            "DELETE FROM Saalis "
+            "WHERE account_id = :id ").params(id=user_id)
+        res = db.engine.execute(stmt)
