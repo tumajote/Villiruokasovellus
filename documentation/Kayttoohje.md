@@ -4,7 +4,7 @@
 
 Mene osoitteeseen https://villiruokasovellus.herokuapp.com/
 
-## Jullkisten villiruokalöytöjen selaaminen
+## Julkisten villiruokalöytöjen selaaminen
 
 Klikkaa sivun ylälaidasta löytyvää linkkiä listaa saaliit
 
@@ -28,3 +28,6 @@ se julkisesti kaikkien nähtävillä. Lopuksi klikataan "Lisää uusi saalis" na
 Paina kirjautuneena listaa saaliit linkkiä sivun ylälaidasta.  Selaimeen avautuu lista omista löydöista. 
 Sivulla voi olevan hakutoiminnallisuuden avulla voi valita haluaako nähdä omat, julkiset vai julkiset ja omat löydöt.
 Haku avaa uuden listan painamalla "Hae" nappia.
+
+## Oman tilin hallinnointi
+Jos haluat muuttaa käyttäjätietojasi paina oikealla yläkulmassa olevaa käyttäjätunnustasi. Siirryt sivulle, jossa voit valita haluatko muuttaa käyttäjätunnustasi, salasanaa tai poistaa käyttäjätilin. Valitse haluamasi toiminto ja seuraa ohjeita.
