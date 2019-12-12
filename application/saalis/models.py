@@ -78,3 +78,53 @@ class Saalis(db.Model):
             "DELETE FROM Saalis "
             "WHERE account_id = :id ").params(id=user_id)
         res = db.engine.execute(stmt)
+
+
+class Shared(db.Model):
+    target_account_id = db.Column(db.Integer, db.ForeignKey(
+        'account.id'), primary_key=True, nullable=False)
+    shared_saalis_id = db.Column(db.Integer, db.ForeignKey(
+        'saalis.id'), primary_key=True, nullable=False)
+
+    def __init__(self, target_account_id, shared_saalis_id):
+        self.target_account_id = target_account_id
+        self.shared_saalis_id = shared_saalis_id
+
+    @staticmethod
+    def get_users_shares(saalis_id):
+        stmt = text(
+            "SELECT Account.id AS target_id, Account.username AS target_username "
+            "FROM Shared "
+            "JOIN Account ON Shared.target_account_id = account.id "
+            "WHERE shared_saalis_id = :id ").params(id=saalis_id)
+        res = db.engine.execute(stmt)
+        return res
+
+    @staticmethod
+    def delete_share(target_account_id, shared_saalis_id):
+        stmt = text(
+            "DELETE FROM Shared "
+            "WHERE target_account_id = :target_account_id AND shared_saalis_id = :shared_saalis_id ").params(
+            shared_saalis_id=shared_saalis_id, target_account_id=target_account_id)
+        db.engine.execute(stmt)
+
+    @staticmethod
+    def get_shared_to_user(user_id):
+        stmt = text(
+            "SELECT Account.username, Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "FROM Shared "
+            "JOIN Saalis ON Shared.shared_saalis_id = Saalis.id "
+            "JOIN Account ON Saalis.account_id = Account.id "
+            "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
+            "JOIN Laji ON Saalis.laji_id = laji.id "
+            "WHERE target_account_id = :id ").params(id=user_id)
+
+        res = db.engine.execute(stmt)
+        return res
+
+    @staticmethod
+    def delete_users_shared(user_id):
+        stmt = text(
+            "DELETE FROM Shared "
+            "WHERE creator_account_id = :id ").params(user_id)
+        res = db.engine.execute(stmt)

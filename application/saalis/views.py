@@ -2,9 +2,10 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user, login_manager
 
 from application import app, db
+from application.auth.models import User
 from application.laji.models import Laji
-from application.saalis.forms import SearchSaalisForm, CreateSaalisForm
-from application.saalis.models import Saalis
+from application.saalis.forms import SearchSaalisForm, CreateSaalisForm, ShareForm
+from application.saalis.models import Saalis, Shared
 from application.sijainti.models import Sijainti
 
 
@@ -31,7 +32,9 @@ def saalis_search():
         saaliit = Saalis.find_all_public_saaliit()
     elif search == "julkisetJaOmat":
         saaliit = Saalis.find_users_and_public_saaliit(current_user.id)
-
+    elif search == "jaetut":
+        saaliit = Shared.get_shared_to_user(current_user.id)
+        return render_template("saalis/list_shared.html", saaliit=saaliit, form=form)
     return render_template("saalis/list.html", saaliit=saaliit, form=form)
 
 
@@ -113,3 +116,43 @@ def saalis_edit(saalis_id):
             return render_template("saalis/edit.html", saalis=saalis, form=form, laji=laji, sijainti=sijainti)
 
     return render_template("saalis/edit.html", saalis=saalis, form=form, sijainti=sijainti, laji=laji)
+
+
+@app.route("/saalis/share/<saalis_id>", methods=["GET", "POST"])
+@login_required
+def share(saalis_id):
+    form = ShareForm(request.form)
+    shares = Shared.get_users_shares(saalis_id)
+    saalis = Saalis.query.get(saalis_id)
+
+    if request.method == 'POST':
+        if form.validate():
+
+            user = User.query.filter_by(username=form.username.data).first()
+
+            if user == current_user:
+                return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis, shares=shares,
+                                       error="Et voi jakaa itsesi kanssa!")
+
+            if not user:
+                return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis, shares=shares,
+                                       error="Käyttäjänimeä ei ole olemassa!")
+
+            if Shared.query.filter_by(target_account_id=user.id, shared_saalis_id=saalis_id).first():
+                return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis, shares=shares,
+                                       error="Olet jo jakanut saaliin kyseisen käyttäjän kanssa!")
+
+            shared = Shared(user.id, saalis_id)
+            db.session().add(shared)
+            db.session().commit()
+            return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis,
+                                   shares=Shared.get_users_shares(saalis_id))
+
+    return render_template("saalis/share.html", form=form, saalis=saalis, shares=shares)
+
+
+@app.route("/saalis/share/delete/<user_id>/<saalis_id>", methods=["POST"])
+@login_required
+def remove_share(user_id, saalis_id):
+    Shared.delete_share(user_id, saalis_id)
+    return render_template("saalis/share.html", form=ShareForm(request.form), saalis=Saalis.query.get(saalis_id), shares=Shared.get_users_shares(saalis_id))

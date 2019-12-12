@@ -17,9 +17,6 @@
             <td>{{ saalis.paivamaara }}</td>
             <td>{{ saalis.maara }}</td>
             <td>{{ saalis.koordinaatit }}</td>
-
-
-            </td>
         </tr>
 
     </table>
@@ -42,7 +39,6 @@
                 </td>
             </tr>
             <tr>
-            <tr>
                 <td>
                     {{ form.maara.label }}
                 </td>
@@ -58,7 +54,6 @@
                 </td>
             </tr>
             <tr>
-            <tr>
                 <td>
                     {{ form.alue.label }}
                 </td>
@@ -73,7 +68,6 @@
                     </ul>
                 </td>
             </tr>
-            <tr>
             <tr>
                 <td>
                     {{ form.koordinaatit.label }}
@@ -110,9 +104,11 @@
                     <input type="submit" value="Muokkaa"/>
                 </td>
             </tr>
+        </table>
     </form>
 
 
+<a class="link" href="{{ url_for('share',saalis_id = saalis.id) }}">Jaa saalis toisen käyttäjän kanssa</a>
 
 
 

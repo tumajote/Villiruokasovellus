@@ -30,7 +30,17 @@ class CreateSaalisForm(FlaskForm):
 
 class SearchSaalisForm(FlaskForm):
     kenen = RadioField("kenen", choices=[("omat", "Omat saaliit"), ("julkiset", "Julkiset saaliit"),
-                                         ("julkisetJaOmat", "Julkiset ja omat saaliit")], default="omat")
+                                         ("julkisetJaOmat", "Julkiset ja omat saaliit"), ("jaetut", "Sinulle jaetut")],
+                       default="omat")
+
+    class Meta:
+        csrf = False
+
+
+class ShareForm(FlaskForm):
+    username = StringField("Käyttäjänimi", [validators.data_required(message='Kenttä ei voi olla tyhjä'),
+                                            validators.Length(min=3, max=10,
+                                                              message="Käyttäjänimen on oltava pituudeltaan 3-10 merkkiä pitkä")])
 
     class Meta:
         csrf = False

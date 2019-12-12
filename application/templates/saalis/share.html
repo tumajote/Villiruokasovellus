@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h2>Olet jakanut tämän saaliin seuraavien käyttäjien kanssa:</h2>
+    <table class="table">
+        <tr>
+            <th>Käyttäjä</th>
+            <th>Poista</th>
+        </tr>
+        {% for share in shares %}
+            <tr>
+                <td>{{ share.target_username }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('remove_share',user_id = share.target_id, saalis_id = saalis.id) }}">
+                        <input type="submit" value="Poista">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Jaa saalis:</h2>
+    {{ error }}
+    <form method="POST" action="{{ url_for('share', saalis_id = saalis.id) }}">
+        <table>
+            <tr>
+                <td>
+                    {{ form.username.label }}
+                </td>
+                <td>
+                    {{ form.username }}
+                </td>
+                <td>
+                    <ul>
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+                <td colspan="2">
+                    <input type="submit" value="Jaa"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
