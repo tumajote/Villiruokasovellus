@@ -11,13 +11,13 @@ class Sijainti(db.Model):
         self.alue = alue
 
     @staticmethod
-    def find_alue_id(alueenNimi):
-        stmt = text("SELECT id FROM Sijainti WHERE Sijainti.alue = :alue").params(alue=alueenNimi)
+    def find_alue_id_or_create_missing_alue(location_name):
+        stmt = text("SELECT id FROM Sijainti WHERE Sijainti.alue = :alue").params(alue=location_name)
 
         res = db.engine.execute(stmt).first()
 
         if not res:
-            sijainti = Sijainti(alueenNimi)
+            sijainti = Sijainti(location_name)
             db.session().add(sijainti)
             db.session().commit()
             return sijainti.id
@@ -25,7 +25,7 @@ class Sijainti(db.Model):
         return res.id
 
     @staticmethod
-    def find_maarat_alueittain_by_user_id(userId):
+    def find_maarat_alueittain_by_user_id(user_Id):
         stmt = text(
             "SELECT Sijainti.alue, SUM(Saalis.maara) AS maara "
             "FROM Sijainti "
@@ -34,7 +34,7 @@ class Sijainti(db.Model):
             "WHERE Account.id = :id "
             "GROUP BY Sijainti.alue "
             "ORDER BY maara DESC;").params(
-            id=userId)
+            id=user_Id)
 
         res = db.engine.execute(stmt)
 

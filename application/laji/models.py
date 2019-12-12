@@ -11,13 +11,13 @@ class Laji(db.Model):
         self.nimi = nimi
 
     @staticmethod
-    def find_laji_id(lajinNimi):
-        stmt = text("SELECT id FROM Laji WHERE Laji.nimi = :nimi").params(nimi=lajinNimi)
+    def find_laji_id_or_create_missing_laji(species_name):
+        stmt = text("SELECT id FROM Laji WHERE Laji.nimi = :nimi").params(nimi=species_name)
 
         res = db.engine.execute(stmt).first()
 
         if not res:
-            laji = Laji(lajinNimi)
+            laji = Laji(species_name)
             db.session().add(laji)
             db.session().commit()
             return laji.id
@@ -25,7 +25,7 @@ class Laji(db.Model):
         return res.id
 
     @staticmethod
-    def find_maarat_lajeittain_by_user_id(userId):
+    def find_maarat_lajeittain_by_user_id(user_Id):
         stmt = text(
             "SELECT Laji.nimi, SUM(Saalis.maara) AS maara "
             "FROM Laji "
@@ -34,7 +34,7 @@ class Laji(db.Model):
             "WHERE Account.id = :id "
             "GROUP BY Laji.nimi "
             "ORDER BY maara DESC;").params(
-            id=userId)
+            id=user_Id)
 
         res = db.engine.execute(stmt)
 

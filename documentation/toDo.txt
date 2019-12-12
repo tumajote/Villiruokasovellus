@@ -1,9 +1,6 @@
 Monesta moneen yhteys
 
-Alue kenttä herjaa jos laittaa pilkun
+Käyttäjä näkee keräämiensä löytöjensä yhteismäärän vuosittain ja lajeittain
 
-Muokkaa hyppää searchissa
+Dokumentaatio kuntoon
 
-Käyttäjä näkee keräämiensä löytöjensä yhteismäärän vuosittain ja lajeittain 
-
-Käyttäjä voi järjestää löydöt määrän, lajin tai paikan mukaan

@@ -23,7 +23,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_saaliit(user_id):
         stmt = text(
-            "SELECT Saalis.account_id, Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -36,7 +36,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_all_public_saaliit():
         stmt = text(
-            "SELECT Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -49,7 +49,7 @@ class Saalis(db.Model):
     @staticmethod
     def find_users_and_public_saaliit(user_id):
         stmt = text(
-            "SELECT Saalis.id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
@@ -63,12 +63,13 @@ class Saalis(db.Model):
     @staticmethod
     def sum_of_all_maara(user_id):
         stmt = text(
-            "SELECT SUM(saalis.maara) "
+            "SELECT SUM(saalis.maara) as summa "
             "FROM Saalis "
             "JOIN Account ON Saalis.account_id = account.id "
             "WHERE Account.id = :id ").params(id=user_id)
         res = db.engine.execute(stmt)
-
+        res = res.first()
+        res = res[0]
         return res
 
     @staticmethod

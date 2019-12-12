@@ -3,17 +3,18 @@
 {% block body %}
     <h3>Tervetuloa villiruokasovellukseen!</h3>
     {% if current_user.is_authenticated %}
-    <p>Lisää uusi löytö tai selaa omia löytöjäsi</p>
+        <p>Olet kerännyt yhteensä {{ maara }} grammaa villiruokaa!</p>
+        <p>Lisää uusi löytö tai selaa omia löytöjäsi</p>
         <ul>
-        <li>
-        <a class="link" href="{{ url_for('saalis_search') }} ">Listaa saaliit</a>
-         </li>
-        <li>
-        <a class="link" href="{{ url_for('saalis_form') }} ">Lisää saalis</a>
-        </li>
+            <li>
+                <a class="link" href="{{ url_for('saalis_search') }} ">Listaa saaliit</a>
+            </li>
+            <li>
+                <a class="link" href="{{ url_for('saalis_create') }} ">Lisää saalis</a>
+            </li>
         </ul>
     {% else %}
-    <p>Kirjaudu tai rekisteröidy lisätäksesi omat löytösi</p>
+        <p>Kirjaudu tai rekisteröidy lisätäksesi omat löytösi</p>
 
     {% endif %}
 {% endblock %}
