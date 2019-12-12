@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from application import app, db
 from application.auth.forms import LoginForm, SignInForm, EditNameForm, EditPassWordForm
 from application.auth.models import User
-from application.saalis.models import Saalis
+from application.saalis.models import Saalis, Shared
 
 
 @app.route("/auth/login", methods=["GET", "POST"])
@@ -84,13 +84,12 @@ def edit_password():
 def delete_account():
     form = LoginForm(request.form)
     if request.method == 'POST':
-        user = User.query.filter_by(password=form.password.data).first()
 
-        if not user == current_user:
+        if not form.password.data == current_user.password:
             return render_template("auth/delete.html", form=form, error="Salasana on väärin!")
-
+        Shared.delete_users_shares(current_user.id)
         Saalis.delete_users_saaliit(current_user.id)
-        db.session().delete(user)
+        db.session().delete(current_user)
         db.session.commit()
         return redirect(url_for("user_profile_index"))
 

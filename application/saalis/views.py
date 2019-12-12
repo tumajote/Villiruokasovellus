@@ -131,22 +131,22 @@ def share(saalis_id):
             user = User.query.filter_by(username=form.username.data).first()
 
             if user == current_user:
-                return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis, shares=shares,
+                return render_template("saalis/share.html", form=form, saalis=saalis, shares=shares,
                                        error="Et voi jakaa itsesi kanssa!")
 
             if not user:
-                return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis, shares=shares,
+                return render_template("saalis/share.html", form=form, saalis=saalis, shares=shares,
                                        error="Käyttäjänimeä ei ole olemassa!")
 
-            if Shared.query.filter_by(target_account_id=user.id, shared_saalis_id=saalis_id).first():
-                return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis, shares=shares,
+            if Shared.query.filter_by(creator_account_id=current_user.id, target_account_id=user.id,
+                                      shared_saalis_id=saalis_id).first():
+                return render_template("saalis/share.html", form=form, saalis=saalis, shares=shares,
                                        error="Olet jo jakanut saaliin kyseisen käyttäjän kanssa!")
 
-            shared = Shared(user.id, saalis_id)
+            shared = Shared(current_user.id, user.id, saalis_id)
             db.session().add(shared)
             db.session().commit()
-            return render_template("saalis/share.html", form=ShareForm(request.form), saalis=saalis,
-                                   shares=Shared.get_users_shares(saalis_id))
+            return redirect(url_for("share", saalis_id=saalis.id))
 
     return render_template("saalis/share.html", form=form, saalis=saalis, shares=shares)
 
@@ -155,4 +155,5 @@ def share(saalis_id):
 @login_required
 def remove_share(user_id, saalis_id):
     Shared.delete_share(user_id, saalis_id)
-    return render_template("saalis/share.html", form=ShareForm(request.form), saalis=Saalis.query.get(saalis_id), shares=Shared.get_users_shares(saalis_id))
+    return render_template("saalis/share.html", form=ShareForm(request.form), saalis=Saalis.query.get(saalis_id),
+                           shares=Shared.get_users_shares(saalis_id))

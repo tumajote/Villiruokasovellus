@@ -81,12 +81,15 @@ class Saalis(db.Model):
 
 
 class Shared(db.Model):
+    creator_account_id = db.Column(db.Integer, db.ForeignKey(
+        'account.id'), nullable=False)
     target_account_id = db.Column(db.Integer, db.ForeignKey(
         'account.id'), primary_key=True, nullable=False)
     shared_saalis_id = db.Column(db.Integer, db.ForeignKey(
         'saalis.id'), primary_key=True, nullable=False)
 
-    def __init__(self, target_account_id, shared_saalis_id):
+    def __init__(self, creator_account_id, target_account_id, shared_saalis_id):
+        self.creator_account_id = creator_account_id
         self.target_account_id = target_account_id
         self.shared_saalis_id = shared_saalis_id
 
@@ -123,8 +126,8 @@ class Shared(db.Model):
         return res
 
     @staticmethod
-    def delete_users_shared(user_id):
+    def delete_users_shares(user_id):
         stmt = text(
             "DELETE FROM Shared "
-            "WHERE creator_account_id = :id ").params(user_id)
-        res = db.engine.execute(stmt)
+            "WHERE Shared.creator_account_id = :id ").params(id=user_id)
+        db.engine.execute(stmt)

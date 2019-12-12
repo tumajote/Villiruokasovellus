@@ -1,6 +1,8 @@
-Monesta moneen yhteys
-
-Käyttäjä näkee keräämiensä löytöjensä yhteismäärän vuosittain ja lajeittain
 
 Dokumentaatio kuntoon
 
+Jakamiseen näkymään saalis
+
+Kryptaus
+
+Kartta
