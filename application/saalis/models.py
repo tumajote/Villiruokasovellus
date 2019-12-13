@@ -34,6 +34,20 @@ class Saalis(db.Model):
         return res
 
     @staticmethod
+    def find_saalis(saalis_id, user_id):
+        stmt = text(
+            "SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen "
+            "FROM Saalis "
+            "JOIN Account ON Saalis.account_id = account.id "
+            "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
+            "JOIN Laji ON Saalis.laji_id = laji.id "
+            "WHERE Account.id = :user_id "
+            "AND Saalis.id = :saalis_id").params(user_id=user_id, saalis_id=saalis_id)
+        res = db.engine.execute(stmt)
+
+        return res.first()
+
+    @staticmethod
     def find_all_public_saaliit():
         stmt = text(
             "SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
@@ -80,47 +94,47 @@ class Saalis(db.Model):
         res = db.engine.execute(stmt)
 
 
-class Shared(db.Model):
-    creator_account_id = db.Column(db.Integer, db.ForeignKey(
+class Jaot(db.Model):
+    jakaja_account_id = db.Column(db.Integer, db.ForeignKey(
         'account.id'), nullable=False)
-    target_account_id = db.Column(db.Integer, db.ForeignKey(
+    kohde_account_id = db.Column(db.Integer, db.ForeignKey(
         'account.id'), primary_key=True, nullable=False)
-    shared_saalis_id = db.Column(db.Integer, db.ForeignKey(
+    jaettu_saalis_id = db.Column(db.Integer, db.ForeignKey(
         'saalis.id'), primary_key=True, nullable=False)
 
     def __init__(self, creator_account_id, target_account_id, shared_saalis_id):
-        self.creator_account_id = creator_account_id
-        self.target_account_id = target_account_id
-        self.shared_saalis_id = shared_saalis_id
+        self.jakaja_account_id = creator_account_id
+        self.kohde_account_id = target_account_id
+        self.jaettu_saalis_id = shared_saalis_id
 
     @staticmethod
     def get_users_shares(saalis_id):
         stmt = text(
             "SELECT Account.id AS target_id, Account.username AS target_username "
-            "FROM Shared "
-            "JOIN Account ON Shared.target_account_id = account.id "
-            "WHERE shared_saalis_id = :id ").params(id=saalis_id)
+            "FROM Jaot "
+            "JOIN Account ON Jaot.kohde_account_id = account.id "
+            "WHERE jaettu_saalis_id = :id ").params(id=saalis_id)
         res = db.engine.execute(stmt)
         return res
 
     @staticmethod
-    def delete_share(target_account_id, shared_saalis_id):
+    def delete_share(kohde_account_id, jaettu_saalis_id):
         stmt = text(
-            "DELETE FROM Shared "
-            "WHERE target_account_id = :target_account_id AND shared_saalis_id = :shared_saalis_id ").params(
-            shared_saalis_id=shared_saalis_id, target_account_id=target_account_id)
+            "DELETE FROM Jaot "
+            "WHERE kohde_account_id = :kohde_account_id AND jaettu_saalis_id = :jaettu_saalis_id ").params(
+            jaettu_saalis_id=jaettu_saalis_id, kohde_account_id=kohde_account_id)
         db.engine.execute(stmt)
 
     @staticmethod
     def get_shared_to_user(user_id):
         stmt = text(
             "SELECT Account.username, Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, Sijainti.alue, Laji.nimi, Saalis.julkinen "
-            "FROM Shared "
-            "JOIN Saalis ON Shared.shared_saalis_id = Saalis.id "
+            "FROM Jaot "
+            "JOIN Saalis ON Jaot.jaettu_saalis_id = Saalis.id "
             "JOIN Account ON Saalis.account_id = Account.id "
             "JOIN Sijainti ON Saalis.sijainti_id = sijainti.id "
             "JOIN Laji ON Saalis.laji_id = laji.id "
-            "WHERE target_account_id = :id ").params(id=user_id)
+            "WHERE kohde_account_id = :id ").params(id=user_id)
 
         res = db.engine.execute(stmt)
         return res
@@ -128,6 +142,6 @@ class Shared(db.Model):
     @staticmethod
     def delete_users_shares(user_id):
         stmt = text(
-            "DELETE FROM Shared "
-            "WHERE Shared.creator_account_id = :id ").params(id=user_id)
+            "DELETE FROM Jaot "
+            "WHERE Jaot.jakaja_account_id = :id ").params(id=user_id)
         db.engine.execute(stmt)

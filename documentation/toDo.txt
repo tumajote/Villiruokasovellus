@@ -1,8 +1,4 @@
 
-Dokumentaatio kuntoon
-
-Jakamiseen näkymään saalis
+Pois debuggaus
 
 Kryptaus
-
-Kartta

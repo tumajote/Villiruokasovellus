@@ -2,7 +2,31 @@
 
 {% block body %}
 
-    <h2>Olet jakanut tämän saaliin seuraavien käyttäjien kanssa:</h2>
+    <table class="table">
+        <tr>
+            <th>Laji</th>
+            <th>Alue</th>
+            <th>Päivämäärä</th>
+            <th>Määrä</th>
+            <th>Koordinaatit</th>
+            <th>Julkinen</th>
+        </tr>
+        <tr>
+            <td>{{ saalis.nimi }}</td>
+            <td>{{ saalis.alue }}</td>
+            <td>{{ saalis.paivamaara }}</td>
+            <td>{{ saalis.maara }}g</td>
+            <td>{{ saalis.koordinaatit }}</td>
+            {% if saalis.julkinen %}
+                <td>Kyllä</td>
+            {% else %}
+                <td>Ei</td>
+            {% endif %}
+
+        </tr>
+    </table>
+
+    <h3>Olet jakanut tämän saaliin seuraavien käyttäjien kanssa:</h3>
     <table class="table">
         <tr>
             <th>Käyttäjä</th>
@@ -12,7 +36,8 @@
             <tr>
                 <td>{{ share.target_username }}</td>
                 <td>
-                    <form method="POST" action="{{ url_for('remove_share',user_id = share.target_id, saalis_id = saalis.id) }}">
+                    <form method="POST"
+                          action="{{ url_for('remove_share',user_id = share.target_id, saalis_id = saalis.id) }}">
                         <input type="submit" value="Poista">
                     </form>
                 </td>
@@ -39,9 +64,9 @@
                     </ul>
                 </td>
             </tr>
-                <td colspan="2">
-                    <input type="submit" value="Jaa"/>
-                </td>
+            <td colspan="2">
+                <input type="submit" value="Jaa"/>
+            </td>
             </tr>
         </table>
     </form>

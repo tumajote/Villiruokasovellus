@@ -32,6 +32,7 @@ class Laji(db.Model):
             "LEFT JOIN Saalis ON Laji.id = Saalis.laji_id "
             "JOIN Account ON Saalis.account_id = account.id "
             "WHERE Account.id = :id "
+            "AND maara > 0 "
             "GROUP BY Laji.nimi "
             "ORDER BY maara DESC;").params(
             id=user_Id)
