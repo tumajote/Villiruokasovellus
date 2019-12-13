@@ -1,4 +1,4 @@
-# Asennusohje (vaatii Python3)
+# Asennusohje (vaatii Python3 ja postgresql asennettuna)
 Käyttääksesi ohjelmaa paikallisesti lataa repositorio ja navigoi sen juurihakemistoon /Villiruokasovellus.
 Asenna virtuaaliympäristö komennolla
 
