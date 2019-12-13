@@ -1,6 +1,6 @@
 # User storyt
 
-##  Rekisteröitymätön käyttäjä voi tarkastella julkisia löytöjä
+Rekisteröitymätön käyttäjä voi tarkastella julkisia löytöjä
   
   	SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Saalis.julkinen, 		Sijainti.alue, Laji.nimi, Saalis.julkinen
 	FROM Saalis
@@ -9,11 +9,11 @@
 	JOIN Laji ON Saalis.laji_id = laji.id
 	WHERE Saalis.julkinen = TRUE
 
-## Käyttäjä voi luoda oman käyttäjätunnuksen, jotta hän voi pitää kirjaa ja tarkastella tekemiään villiruoka löytöjä.
+Käyttäjä voi luoda oman käyttäjätunnuksen, jotta hän voi pitää kirjaa ja tarkastella tekemiään villiruoka löytöjä.
 	
-## Käyttäjä voi tallentaa löytämiensä villiruokien lajin ja löytöpaikan ja -ajan, määrän ja koordinaatit, jotta hän voi voi myöhemmin tarkastella löytämiään villiruokia ja niihin liitettyjä tietoja.
+Käyttäjä voi tallentaa löytämiensä villiruokien lajin ja löytöpaikan ja -ajan, määrän ja koordinaatit, jotta hän voi voi myöhemmin tarkastella löytämiään villiruokia ja niihin liitettyjä tietoja.
 
-## Käyttäjällä on näkymät, joissa voi tarkastella yhteenvetoja löydöistään paikan tai lajin mukaisesti tilastoituina
+Käyttäjällä on näkymät, joissa voi tarkastella yhteenvetoja löydöistään paikan tai lajin mukaisesti tilastoituina
 
 	SELECT Laji.nimi, SUM(Saalis.maara) AS maara
         FROM Laji
@@ -23,7 +23,7 @@
         GROUP BY Laji.nimi
         ORDER BY maara DESC
 
-## Käyttäjä voi valita tarkasteleeko hän omassa näkymässään julkisia, omia vai hänelle jaettuja löytöjä
+Käyttäjä voi valita tarkasteleeko hän omassa näkymässään julkisia, omia vai hänelle jaettuja löytöjä
   	   
 	SELECT Saalis.id, Saalis.account_id, Saalis.maara, Saalis.koordinaatit, Saalis.paivamaara, Sijainti.alue, Laji.nimi, Saalis.julkinen 
 	FROM Saalis
@@ -60,9 +60,9 @@
          WHERE kohde_account_id = 
   
 
-## Käyttäjä voi määritellä onko hänen tekemänsä löytö näkyvillä vain hänelle itselleen vai julkinen, jolloin se on kaikille näkyvissä
+Käyttäjä voi määritellä onko hänen tekemänsä löytö näkyvillä vain hänelle itselleen vai julkinen, jolloin se on kaikille näkyvissä
 
-## Käyttäjä voi jakaa löydyn valituille käyttäjille.
+Käyttäjä voi jakaa löydyn valituille käyttäjille.
 
 
 To do:
