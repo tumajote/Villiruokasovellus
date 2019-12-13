@@ -62,7 +62,7 @@ Käyttäjä voi valita tarkasteleeko hän omassa näkymässään julkisia, omia 
 
 Käyttäjä voi määritellä onko hänen tekemänsä löytö näkyvillä vain hänelle itselleen vai julkinen, jolloin se on kaikille näkyvissä
 
-Käyttäjä voi jakaa löydyn valituille käyttäjille.
+Käyttäjä voi jakaa löydön valituille käyttäjille.
 
 
 To do:
